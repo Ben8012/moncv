@@ -65,7 +65,7 @@ Case.prototype.cliquer = function(c){
 
 
 //objet
-
+//test
 let monCV ={
     coordonnnees:{
         nom : "sterckx",
