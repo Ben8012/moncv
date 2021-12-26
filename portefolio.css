@@ -1,20 +1,113 @@
-.nav{
+body{
+    background-color: darkkhaki;
+}
+
+th,td{
+    border: black 1px solid;
+    padding: 25px;
+    border-radius: 2px;
+    
+}
+
+label{
+    width: 120px;
+    float: left;
+}
+
+input{
+    width: 200px;
+}
+
+button{
+    padding:1%;
+    margin:1%;
+    border-radius: 5px;
+    background-color: lightgray;
+    color: black;  
+}
+
+button:hover{
+    background-color: black;
+    color: lightgray;
+}
+
+form{
     display: flex;
-    flex-wrap: wrap; 
+    flex-direction: column;
     justify-content: center;
-    height: 20%;
-    background-color: cyan;
 }
 
-.button{
-    margin : 5%;
-    padding : 5%;
-    background-color: blue;
-    text-decoration: cornsilk;
-
+.navbar{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color:black;
+    border-radius: 5px;
 }
 
-.div{
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: darkkhaki;
     text-decoration: black;
+    padding: 5%;
+    margin-left : 15%;
+    margin-right : 15%;
+    margin-top: 5%;
+    /* border: black solid 2px;
+    border-radius: 5px; */
+}
+
+.coordonnees{
+    text-align: center;  
+    
+}
+
+.competences{
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.competences2{
+    width: 25%;
+}
+
+.formations{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.langues{
+    text-align: center;  
+}
+
+.loisirs{
+    text-align: center;
+}
+
+.expTitre{
+    border: none;
+}
+
+.bouttonModifier{
+    display: block;
+    margin-left : auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.formDiv{
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    margin : 10px ;
+}
+
+.divBoutton{
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
 }
