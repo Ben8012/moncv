@@ -1,9 +1,78 @@
+///-------------- CREATION DES BALISES -------------//
 function createPF(){
-    afficherNav();
+    body = document.getElementById('body');
+    nav = body.appendChild(document.createElement('nav'));
+    nav.setAttribute('id','nav');
+    div = body.appendChild(document.createElement('div'));
+    div.setAttribute('id','div');
+    seConnecter();
+}
+
+///------------CONNEXION-------------------///
+function seConnecter(){
+    let div = document.getElementById("div");
+    viderElement(div);
+    div.setAttribute("class","container");
+
+    let divText = div.appendChild(document.createElement("div"));
+    divText.setAttribute("id","divText");
+    divText.setAttribute("class","divText");
+
+    let divButton = div.appendChild(document.createElement("div"));
+    divButton.setAttribute("id",'divButton');
+    divButton.setAttribute("class","divButton");
+
+    let form ="<form action='#' method='post' id='formConnexion'>"; 
+    form +="<h3 class='formDiv'>Connexion</h3>";
+    form += "<div class='formlogin'  id='email'><label>Email : </label><input type='email' name='email'  ></div>";
+    // value='"+monCV[0].valeur.email+"'
+    form += "<div class='formlogin'  id='passwd'><label>Mot de passe : </label> <input type='password' name='passwd'  ></div>";
+    // value='"+monCV[6].valeur[0].password+"'
+    form += "</form>"
+    divText.innerHTML = form;
+    let button = divButton.appendChild(document.createElement('button'));
+    button.setAttribute('class','bouttonModifier');
+    button.appendChild(document.createTextNode('Connexion'));
+    formConnexion = document.getElementById("formConnexion");
+    button.onclick = function() {
+        formModifier = document.getElementById("formModifier");
+        connection(formConnexion);
+    };
+ 
+    let button2 = divButton.appendChild(document.createElement('button'));
+    button2.setAttribute('class','bouttonModifier');
+    button2.setAttribute('id','voir');
+    button2.appendChild(document.createTextNode('voir :)'));
+    button2.onclick = function(){
+        alert("L'Email : 'ben@mail.com' \rLe mot de passe : 'test1234=' \rMais chuut .... !!");
+    }       
+}
+
+function connection(form){
+    (form.email.value == monCV[0].valeur.email && form.passwd.value == monCV[6].valeur[0].password) ?
+        afficherNav():
+        (form.email.value == monCV[0].valeur.email && form.passwd.value != monCV[6].valeur[0].password ) ? 
+            passwdInvalide():
+            (form.email.value != monCV[0].valeur.email && form.passwd.value == monCV[6].valeur[0].password) ?
+                emailInvalide():
+                (emailInvalide()+passwdInvalide());
+}
+
+function emailInvalide(){
+    let div = document.getElementById("email");
+    p = div.appendChild(document.createElement("p"));
+    p.setAttribute('class','inputErreur');
+    p.appendChild(document.createTextNode('Votre email est invalide !!'));
+}
+
+function passwdInvalide(){
+    let div = document.getElementById("passwd");
+    p = div.appendChild(document.createElement("p"));
+    p.setAttribute('class','inputErreur');
+    p.appendChild(document.createTextNode('Votre mot de passe est invalide !!'));
 }
 
 ///------- AFFICHAGE BARRE DE NAVIGATION + CREATION D'OBJET LORS DU CLICK CORRESPONDANT AU TITRE ----------------///
-
 function afficherNav(){
     var nav = document.getElementById("nav");
     nav.setAttribute("class","navbar");
@@ -15,21 +84,19 @@ function afficherNav(){
         button.item = item;
         button.onclick = function() {afficherElement(this.item);};
     }
-    
     afficherElement(monCV[0]);
 }
 
+///----------FONCTION POUR VIDER L'INTERIEUR D'UNE BALISE ---------///
 function viderElement(element){
     while (element.firstChild) element.removeChild(element.firstChild);
 }
 
 
 ///-----------LES BOUTTONS-----------------///
-
 function bouttonModifier(item){
-    let div = document.getElementById("div");
-   
-    let button =  div.appendChild(document.createElement("button"));
+    let divButton2 = document.getElementById("divButton");
+    let button =  divButton2.appendChild(document.createElement("button"));
     button.setAttribute("class","bouttonModifier")
     button.appendChild(document.createTextNode("Modifier "+item.titre))
     button.onclick = function(){ modifier(item);}
@@ -49,9 +116,8 @@ function bouttonValider(titre){
 }
 
 function bouttonAjouter(item){
-    let div = document.getElementById("div");
-   
-    let button =  div.appendChild(document.createElement("button"));
+    let divbutton3 = document.getElementById("divButton");
+    let button =  divbutton3.appendChild(document.createElement("button"));
     button.setAttribute("class","bouttonModifier")
     button.appendChild(document.createTextNode("Ajouter "+item.titre))
     button.onclick = function(){ ajouter(item);}
@@ -70,58 +136,51 @@ function bouttonValiderAjout(titre){
     }
 }
 
-
-///--------------AFFICHAGE ---------------///
-
+///--------------AFFICHAGE CONTENU ---------------///
 function afficherElement(item){
     let div = document.getElementById("div");
+    viderElement(div);
     div.setAttribute("class","container");
 
-    // div.innerHTML += "<div id='divText' class='divtext'></div>";
-    // div.innerHTML += "<div id='divButton' class='divButton'></div>";
+    let divText = div.appendChild(document.createElement("div"));
+    divText.setAttribute("id","divText");
+    divText.setAttribute("class","divText");
 
-    // let divText = div.appendChild(document.createElement("div"));
-    // divText.setAttribute("id","divText");
-    // divText.setAttribute("class","divText");
-
-    // let divButton = div.appendChild(document.createElement("div"));
-    // divButton.setAttribute("id",'divButton');
-    // divButton.setAttribute("class","boutton");
-    //console.log(div);
-
+    let divButton = div.appendChild(document.createElement("div"));
+    divButton.setAttribute("id",'divButton');
+    divButton.setAttribute("class","divButton");
+    
     if(item.titre == "Coordonnnees"){
-        div.innerHTML = afficherCoordonnnees(item); 
-      
+        divText.innerHTML = afficherCoordonnnees(item); 
     }
     else if(item.titre == "Formations"){
-        div.innerHTML = afficherFormations(item);
-        bouttonAjouter(item);
+        divText.innerHTML = afficherFormations(item);
     }
     else if(item.titre == "Competences"){
-        div.innerHTML = afficherCompetences(item);
-        bouttonAjouter(item);
+        divText.innerHTML = afficherCompetences(item);
     }
     else if(item.titre == "Experiences"){
-        div.innerHTML = afficherExperiences(item);
-        bouttonAjouter(item);
+        divText.innerHTML = afficherExperiences(item);
     }
     else if(item.titre == "Langues"){
-        div.innerHTML = afficherLangues(item);
-        bouttonAjouter(item);
+        divText.innerHTML = afficherLangues(item);
     }
     else if(item.titre == "Loisirs"){
-        div.innerHTML = afficherLoisirs(item);
-        bouttonAjouter(item);
+        divText.innerHTML = afficherLoisirs(item);
     }
-    bouttonModifier(item);
-    // div.innerHTML += "<div class='divBoutton' id='divBoutton'>"+bouttonAjouter(item);bouttonModifier(item)+"</div>"; 
+    else if(item.titre == "Déconnexion"){
+        viderElement(body);
+        createPF();
+    }
+    item.titre == "Coordonnnees" || item.titre == "Déconnexion" ? "" : bouttonAjouter(item);
+    item.titre == "Déconnexion" ? "" : bouttonModifier(item);
 }
-
 
 function afficherCoordonnnees(coordonnneesItem){
     let coordonnnees = coordonnneesItem.valeur
     let text = '<div class="coordonnees"> ';
-    text +="<h3>"+coordonnnees.nom+" "+coordonnnees.prenom+"</h3>";
+    text +="<h3>"+coordonnneesItem.titre+"</h3>"
+    text +="<h4>"+coordonnnees.nom+" "+coordonnnees.prenom+"</h4>";
     text +="<p> Email : "+coordonnnees.email+"</p>";
     text +="<p> Tel : "+coordonnnees.tel+"</p>";
     text +="<p> Adresse : "+coordonnnees.rue+" "+coordonnnees.numero+", "+coordonnnees.codePostal+" "+coordonnnees.ville+"</p>";
@@ -135,7 +194,8 @@ function afficherCoordonnnees(coordonnneesItem){
 
 
 function afficherFormations(formations){
-    let text = '<div class ="formations">'
+    let text ="<h3 class='titre'>"+formations.titre+"</h3>"
+    text += '<div class ="formations">'
     text += "<table><thead><tr><th>Annee</th><th>Nom</th><th>Ecole</th></tr></thead><tbody>";
     for (let  formation of formations.valeur) {
        text += "<tr><td>"+formation.annee+"</td><td>"+formation.nom+"</td><td>"+formation.ecole+"</td></tr>";
@@ -145,7 +205,8 @@ function afficherFormations(formations){
 }
 
 function afficherCompetences (competences){
-    let text ='<div class="competences">';  
+    let text ="<h3 class='titre'>"+competences.titre+"</h3>"
+    text +='<div class="competences">';  
     for(let competence of competences.valeur){
         text += '<div class="competences2"><h3>'+competence.titre+"</h3>"
         for (let i = 0; i < competence.type.length; i++) {
@@ -158,7 +219,8 @@ function afficherCompetences (competences){
 }
 
 function afficherExperiences(experiences){
-    let text ="<table><thead><tr><th>Année</th><th>Intitulé</th><th>Acquis</th></tr></thead><tbody>";
+    let text ="<h3 class='titre'>"+experiences.titre+"</h3>";
+    text +="<table><thead><tr><th>Année</th><th>Intitulé</th><th>Acquis</th></tr></thead><tbody>";
     for( let experience of experiences.valeur){ 
         text += "</tr><th class ='expTitre'>"+experience.nom+"</th>";
         for (let i = 0; i < experience.valeur.length; i++) {
@@ -190,8 +252,7 @@ function afficherLoisirs(loisirs){
     return text;
 }
 
-//// -------------FONCTION MODIFICATION --------------///
-
+///---------AFFICHAGE MODIFICATION--------------------------////
 function modifier(item){ 
     let div = document.getElementById("div");
     div.setAttribute("class","formModifier");
@@ -217,11 +278,8 @@ function modifier(item){
     bouttonValider(item.titre)
 }
 
-///---------AFFICHAGE MODIFICATION--------------------------////
-
 function afficherModifierCoordonnnees(coordonneesItem){
     let coordonnees = coordonneesItem.valeur;
-    console.log(coordonnees);
     let form ="<form action='#' method='post' id='formModifier'>"; 
     form += "<div class='formDiv'><label>Nom : </label><input type='text' id='nom' name='nom' value='"+coordonnees.nom+"'></div>";
     form += "<div class='formDiv'><label>Prenom : </label> <input type='text' name='prenom' value='"+coordonnees.prenom+"'></div>";
@@ -239,10 +297,8 @@ function afficherModifierCoordonnnees(coordonneesItem){
     return form;
 }
 
-
 function afficherModifierFormations(formationsItem){
     let formations = formationsItem.valeur;
-    console.log(formations);
     let form ="<form action='#' method='post' id='formModifier'>"; 
     for (let i = 0; i < formations.length; i++) {
         form += "<h3 class='formDiv'>Formation "+(i+1)+"</h3>"
@@ -250,14 +306,12 @@ function afficherModifierFormations(formationsItem){
         form += "<div class='formDiv'><label>Année : </label> <input type='text' name='annee"+i+"' value='"+formations[i].annee+"'></div>";
         form += "<div class='formDiv'><label>Ecole : </label><input type='text' name='ecole"+i+"' value='"+formations[i].ecole+"'></div>";
     }
-  
     form += "</form>"
     return form;
 }
 
 function afficherModifierCompetences(competencesItem){
     let competences = competencesItem.valeur;
-    console.log(competences);
     let form ="<form action='#' method='post' id='formModifier'>"; 
     for (let i = 0; i < competences.length; i++){
         form += "<h3 class='formDiv'>"+competencesItem.titre+" "+(i+1)+"</h3>";;
@@ -273,7 +327,6 @@ function afficherModifierCompetences(competencesItem){
 
 function afficherModifierExperiences(expriencesItem){
     experiences = expriencesItem.valeur;
-    console.log(experiences);
     let form ="<form action='#' method='post' id='formModifier'>"; 
     for(let i = 0; i < experiences.length; i++){
         form += "<h3 class='formDiv'>"+expriencesItem.titre+" "+(i+1)+"</h3>";
@@ -290,21 +343,18 @@ function afficherModifierExperiences(expriencesItem){
 }
 
 function afficherModifierLangues(languesItem){
-    console.log(languesItem);
     langues = languesItem.valeur;
     let form ="<form action='#' method='post' id='formModifier'>"; 
     for(let i = 0; i < langues.length; i++){
         form += "<h3 class='formDiv'>"+languesItem.titre+" "+(i+1)+"</h3>";
         form += "<div class='formDiv'><label>Langue : </label><input type='text' id='nom' name='nom"+i+"' value='"+langues[i].nom+"'></div>";
-        form += "<div class='formDiv'><label>Niveau : </label><input type='text' id='type' name='type"+i+"' value='"+langues[i].type+"'></div>";
-        
+        form += "<div class='formDiv'><label>Niveau : </label><input type='text' id='type' name='type"+i+"' value='"+langues[i].type+"'></div>";   
     }
     form += "</form>"
     return form;
 }
 
 function afficherModifierLoisirs(loisirsItem){
-    console.log(loisirsItem);
     loisirs = loisirsItem.valeur;
     let form ="<form action='#' method='post' id='formModifier'>"; 
     for(let i = 0; i < loisirs.length; i++){
@@ -337,7 +387,6 @@ function valider(titre,formModifier){
         }
         item = monCV[0];
         div.innerHTML = afficherCoordonnnees(item);
-        
     }
     else if(titre == "Formations"){
         // for (let i = 0; i < 7; i++) {
@@ -407,7 +456,6 @@ function valider(titre,formModifier){
         div.innerHTML = afficherCompetences(item);
     }
     else if(titre == "Experiences"){
-        console.log(formModifier),
         monCV[3].valeur[0].nom = formModifier.nom0.value,
         monCV[3].valeur[1].nom = formModifier.nom1.value,
         monCV[3].valeur[2].nom = formModifier.nom2.value,  
@@ -459,7 +507,6 @@ function valider(titre,formModifier){
         monCV[3].valeur[4].valeur[0].firme = formModifier.firme40.value,
 
         item = monCV[3];
-        console.log(item);
         div.innerHTML = afficherExperiences(item);
     }
     else if(titre == "Langues"){
@@ -485,7 +532,7 @@ function valider(titre,formModifier){
         item = monCV[5];
         div.innerHTML = afficherLoisirs(item);
     }
-    bouttonModifier(item)
+    afficherElement(item);
 }
 
 /////-----------------AJOUTER ----------------/////
@@ -519,12 +566,11 @@ function ajouter(item){
 ///---------------- AFFICHAGE AJOUTER --------------------///
 
 function afficherAjouterCoordonnnees(item){
-
+    /// rien a ajouter pour le moment 
 }
 
 function afficherAjouterFormations(formationItem){
     let formations = formationItem.valeur;
-    console.log(formations);
     let form ="<form action='#' method='post' id='formModifier'>"; 
     form += "<div class='formDiv'><label>Nom : </label>   <input type='text' name='nom'></div>";
     form += "<div class='formDiv'><label>Année : </label> <input type='text' name='annee'></div>";
@@ -535,7 +581,6 @@ function afficherAjouterFormations(formationItem){
 
 function afficherAjouterCompetences(competencesItem){
     let competences = competencesItem.valeur;
-    console.log(competences)
     let form ="<form action='#' method='post' id='formModifier'>"; 
     for (let i = 0; i < competences.length; i++){
         form += "<h3 class='formDiv'>"+competences[i].titre+"</h3>";;
@@ -547,22 +592,18 @@ function afficherAjouterCompetences(competencesItem){
 
 function afficherAjouterExperiences(experiencesItem){
     let experiences = experiencesItem.valeur;
-    console.log(experiences);
     let form ="<form action='#' method='post' id='formModifier'>"; 
-    
     form += "<h3 class='formDiv'>"+experiencesItem.titre+"</h3>";
     form += "<div class='formDiv'><label>Titre : </label><input type='text' id='nom' name='nom'></div>";
     form += "<div class='formDiv'><label>Annee : </label><input type='text' id='type' name='annee' ></div>";
     form += "<div class='formDiv'><label>Firme : </label><input type='text' id='type' name='firme' ></div>";
     form += "<div class='formDiv'><label>Acquis : </label><textarea type='text' id='type' name='acquis'></textarea></div>";
-        
     form += "</form>"
     return form;
 }
 
 function afficherAjouterLangues(languesItem){
     let langues = languesItem.valeur;
-    console.log(langues);
     let form ="<form action='#' method='post' id='formModifier'>"; 
     form += "<h3 class='formDiv'>"+languesItem.titre+"</h3>";
     form += "<div class='formDiv'><label>Langues : </label><input type='text' id='nom' name='nom'></div>";
@@ -573,7 +614,6 @@ function afficherAjouterLangues(languesItem){
 
 function afficherAjouterLoisirs(loisirsItem){
     let loisirs = loisirsItem.valeur;
-    console.log(loisirs);
     let form ="<form action='#' method='post' id='formModifier'>"; 
     form += "<h3 class='formDiv'>"+loisirsItem.titre+"</h3>";
     form += "<div class='formDiv'><input type='text' id='nom' name='nom'></div>";
@@ -588,8 +628,7 @@ function validerAjout(titre,formModifier){
     div.setAttribute("class","container");
     var item;
     if(titre == "Coordonnnees"){
-       
-        
+       /// rien a valider car pas d'ajout
     }
     else if(titre == "Formations"){
         let newVal = {
@@ -598,21 +637,16 @@ function validerAjout(titre,formModifier){
             nom : formModifier.nom.value,
         }
         formModifier.annee.value || formModifier.ecole.value || formModifier.nom.value ? monCV[1].valeur.push(newVal) : "",
-       
         item = monCV[1];
-        div.innerHTML = afficherFormations(item);
     }
     else if(titre == "Competences"){
-       
         formModifier.type0.value ? monCV[2].valeur[0].type.push(formModifier.type0.value):"";
         formModifier.type1.value ? monCV[2].valeur[1].type.push(formModifier.type1.value):"";
         formModifier.type2.value ? monCV[2].valeur[2].type.push(formModifier.type2.value):"";
         formModifier.type3.value ? monCV[2].valeur[3].type.push(formModifier.type3.value):"";
         item = monCV[2];
-        div.innerHTML = afficherCompetences(item);
     }
     else if(titre == "Experiences"){
-      
         let newVal ={   
                     nom : formModifier.nom.value,
                     valeur:
@@ -626,248 +660,18 @@ function validerAjout(titre,formModifier){
                     }
         formModifier.nom.value || formModifier.nom.value || formModifier.firme.value || formModifier.acquis.value ? monCV[3].valeur.push(newVal) : "",
         item = monCV[3];
-        console.log(item);
-        div.innerHTML = afficherExperiences(item);
     }
     else if(titre == "Langues"){
         let newVal ={
                         nom : formModifier.nom.value,
                         type : formModifier.type.value,
                     }
-        monCV[4].valeur.push(newVal)
+        newVal.nom && newVal.type ? monCV[4].valeur.push(newVal):"";
         item = monCV[4];
-        div.innerHTML = afficherLangues(item);
     }
     else if(titre == "Loisirs"){
-
         formModifier.nom.value ? monCV[5].valeur.push(formModifier.nom.value):"";
-
         item = monCV[5];
-        div.innerHTML = afficherLoisirs(item);
     }
-    bouttonModifier(item)
+    afficherElement(item);
 }
-
-// Objet utilisé
-
-let monCV =[
-    {   
-        titre : "Coordonnnees",
-        valeur : {
-            nom : "Sterckx",
-            prenom : "Benjamin",
-            email : "benjamin@mail.com",
-            tel : "+32468123456",   
-            rue : "rue de la Ville",
-            numero : "1",
-            ville : "La Ville",
-            codePostal : "1000",
-            naissance : "1980-12-10",
-            age : " 41",
-            gitHub:"https://github.com/Ben8012",
-            linkedIn : "a faire",
-        }
-    },
-
-    {
-        titre : "Formations",
-        valeur :[ 
-            {
-                annee: "2021-2023",
-                nom :"Baccalauréat Informatique de gestion",
-                ecole : "IFOSUP",
-            },
-            {
-                annee : "2021-2022",
-                nom :"Développeur .NET Angular",
-                ecole : "TechnofuturTIC",
-            },
-            {
-                annee : "2020-2021",
-                nom :"Accès aux métiers du numérique",
-                ecole : "CESEP",
-            },
-            {
-                annee: "2019-2020",
-                nom :"Instructeur de plongée",
-                ecole : "BELDIVE",
-            },
-            {
-                annee : "2016-2017",
-                nom :"Spécialiste Automates",
-                ecole : "TECHNOCAMPUS",
-            },
-            {
-                annee : "2014-2015",
-                nom :"Initiation aux automates",
-                ecole : "FOREM",
-            },
-            {
-                annee : "2005-2007",
-                nom :"Electricité industrielle",
-                ecole : "IFOSUP",
-            }
-        ]
-    },
-
-    {
-        titre : "Competences",
-        valeur : 
-        [
-            {
-                titre :"Langages",
-                type :['C#','TypeScript','JavaScript','SQL/TSQL','PHP','HTML5','CSS3' ]
-            },
-                
-            {
-                titre :"Frameworks",
-                type :['ASP .NET','API .NET','WPF .NET','Angular TS','ExpressJS','Symfony']
-            },
-            {
-                titre:"Robotiques",
-                type:['Arduino','Elegoo'],
-            },
-            {
-                titre:"Automates",
-                type:['Siemens TIA portal','Schneider UnityPro']
-            }
-        ]
-    },
-
-    {
-        titre : "Experiences",
-        valeur :
-        [
-            {
-                nom: "Développeur",
-                valeur :
-                [
-                    {
-                        annee : "2021 - 2022",
-                        firme : "TechnofuturTic",
-                        acquis: `Réalisation de 2 applications 3-Tiers. Une sur le thème de la plongée l'autre est un "reseau social"`,
-                        technologies : " .NET et TypeScript",
-                        ide : " Visual Studio et visual Studio Code",
-                        frontEnd : " ASP et Angular ",
-                        api : ".NET5 et ExpressJS",
-                        dataBase : "MySQL et SQLServer"
-                    }
-                  
-                ]
-               
-            },
-               
-            {
-                nom : "Automaticien",
-                valeur:
-                [
-                    {
-                        annee: "2018-2020",
-                        firme : "Mama Lucia",
-                        acquis : "Maintenance de ligne de production",
-                    },
-                        
-                    {
-                        annee : "2017-2018",
-                        firme : "Engie Fabricom",
-                        acquis : "Maintenance de pont roulant",
-                    },
-                    {
-                        annee : "2015-2016",
-                        firme : "CERMAG ( Martinique)",
-                        acquis : "Expertises diverse en electro-mécanique",
-                    }
-                ]
-            },
-    
-            
-                
-            {
-                nom:"Audiovisuel",
-                valeur :
-                [
-                    {
-                        annee:"2010-2014",
-                        firme: "BEST",
-                        acquis :"Montage et programmation lumière ",
-                    },
-                    {
-                        annee:"2007-2010",
-                        firme: " ASP-BLUESQUARE",
-                        acquis :"Maintenance des appareillages son, lumière et vidéo ",
-                    },
-                    {
-                        annee:"2010-2014",
-                        firme: "BEST",
-                        acquis :"Montage et programmation lumière ",
-                    },
-                    {
-                        annee:"2007-2010",
-                        firme: " ASP-BLUESQUARE",
-                        acquis :"Maintenance des appareillages son, lumière et vidéo ",
-                    }      
-                ]
-           
-            },
-
-            {
-                nom : "Électricien",
-                valeur :
-                [
-                    {
-                        annee:"2005–2007",
-                        firme: "Ets Leclercq",
-                        acquis :"Installations diverses",
-                    },
-                    {
-                        annee:"2003–2005",
-                        firme: "Électricien",
-                        acquis :"Installations domestiques",
-                    }
-                ]
-            },
-            {
-                
-                nom:"Opérateur",
-                valeur:
-                [  
-                    {
-                        annee:"1998-2003 ",
-                        firme: "Missions intérimaires",  
-                        acquis :"Missions variées",           
-                    }
-                ] 
-            }
-        ]  
-    },
-
-    {
-        titre :"Langues",
-        valeur :
-        [
-            {
-                nom : "Francais",
-                type : "Langue maternelle"
-            },
-            {
-                nom : "Anglais",
-                type : "Niveau B1"
-            },
-            {
-                nom : "Néerlandais",
-                type : "Niveau A2"
-            }
-        ]  
-    },
- 
-    {
-        titre : "Loisirs",
-        valeur :
-        [
-            "VTT",
-            "Trail",
-            "Plongée" 
-        ]
-    }
-   
-]

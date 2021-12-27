@@ -4,9 +4,13 @@ body{
 
 th,td{
     border: black 1px solid;
-    padding: 25px;
+    padding: 5px;
     border-radius: 2px;
     
+}
+
+table{
+    margin:auto;
 }
 
 label{
@@ -52,12 +56,9 @@ form{
     justify-content: center;
     background-color: darkkhaki;
     text-decoration: black;
-    padding: 5%;
-    margin-left : 15%;
-    margin-right : 15%;
-    margin-top: 5%;
-    /* border: black solid 2px;
-    border-radius: 5px; */
+    padding: 20px;
+    margin-left : 100px;
+    margin-right : 100px;
 }
 
 .coordonnees{
@@ -65,14 +66,30 @@ form{
     
 }
 
+.titre{
+    text-align: center;
+}
+
 .competences{
    display: flex;
    flex-wrap: wrap;
+   justify-content: center;
+   width: 60%;
+   margin: auto;
 }
 
 .competences2{
-    width: 25%;
+    margin : 10px;
+    padding : 10px;
+    border: black solid 1px;
+    border-radius: 5px;
 }
+
+.competences2>p,.competences2>h3{
+    margin: auto;
+    padding:5px;
+}
+
 
 .formations{
     display: flex;
@@ -97,6 +114,8 @@ form{
     margin-left : auto;
     margin-right: auto;
     margin-top: 50px;
+    margin : 10px;
+    padding: 5px;
 }
 
 .formDiv{
@@ -106,8 +125,28 @@ form{
     margin : 10px ;
 }
 
-.divBoutton{
+.divButton{
     display: flex;
     flex-direction:row;
     justify-content: center;
+    max-width: 500px;
+    margin: auto;
+    margin-top:15px;
+}
+
+.inputErreur{
+    color : red;
+    border : solid 1px red;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    background-color:yellow;
+    margin : auto;
+    margin-top:20px;
+    
+}
+
+.formlogin{
+    margin : auto;
+    margin-top: 20px;
 }
