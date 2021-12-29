@@ -67,9 +67,8 @@ let monCV =[
         [
             {
                 titre :"Langage",
-                type :['C#','TypeScript','JavaScript','SQL/TSQL','PHP','HTML5','CSS3' ]
+                type :['C#','TypeScript','JavaScript','SQL/TSQL','PHP','HTML5','CSS3']
             },
-                
             {
                 titre :"Framework",
                 type :['ASP .NET','API .NET','WPF .NET','Angular TS','ExpressJS','Symfony']
