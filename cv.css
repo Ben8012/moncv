@@ -83,11 +83,18 @@ form{
     padding : 10px;
     border: black solid 1px;
     border-radius: 5px;
+    min-width: 200px;
+    
 }
 
 .competences2>p,.competences2>h3{
     margin: auto;
     padding:5px;
+    
+}
+
+.competences3{
+    margin: 100px;
 }
 
 
@@ -152,4 +159,27 @@ form{
 .formlogin{
     margin : auto;
     margin-top: 20px;
+}
+
+.supprimer{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cv{
+ display: flex;
+ flex: row;
+}
+
+.cvCoordonnees{
+    padding : 10px;
+    width: 40%;
+    background-color: cornflowerblue;
+
+}
+
+.cvContenu{
+    width: 60%;
+    background-color: darkgrey;
+
 }

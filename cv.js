@@ -32,7 +32,7 @@ function seConnecter(){
     form +="<h3 class='formDiv'>Connexion</h3>";
     form += "<div class='formlogin'  id='email'><label>Email : </label><input type='email' name='email' value='"+monCV[0].valeur.email+"' ></div>";
     // 
-    form += "<div class='formlogin'  id='passwd'><label>Mot de passe : </label> <input type='password' name='passwd'  value='"+monCV[6].valeur[0].password+"'></div>";
+    form += "<div class='formlogin'  id='passwd'><label>Mot de passe : </label> <input type='password' name='passwd'  value='"+monCV[8].valeur[0].password+"'></div>";
     // 
     form += "</form>"
     divText.innerHTML = form;
@@ -57,11 +57,11 @@ function seConnecter(){
 
 ///----- VERIFICATION EMAIL ET MOT DE PASSE ----------///
 function connection(form){
-    (form.email.value == monCV[0].valeur.email && form.passwd.value == monCV[6].valeur[0].password) ?
+    (form.email.value == monCV[0].valeur.email && form.passwd.value == monCV[8].valeur[0].password) ?
         afficherNav():
-        (form.email.value == monCV[0].valeur.email && form.passwd.value != monCV[6].valeur[0].password ) ? 
+        (form.email.value == monCV[0].valeur.email && form.passwd.value != monCV[8].valeur[0].password ) ? 
             passwdInvalide():
-            (form.email.value != monCV[0].valeur.email && form.passwd.value == monCV[6].valeur[0].password) ?
+            (form.email.value != monCV[0].valeur.email && form.passwd.value == monCV[8].valeur[0].password) ?
                 emailInvalide():
                 (emailInvalide()+passwdInvalide());
 }
@@ -144,10 +144,22 @@ function bouttonValiderAjout(titre){
     }
 }
 
-// function supprimerFormation(i){
-//     monCV[1].valeur.splice(i,1);
-//     afficherElement(monCV[1]);
-// }
+function bouttonValiderUnAjout(titre,item){
+    let div = document.getElementById("divButton");
+    // div.setAttribute("class","container");
+    let button = div.appendChild(document.createElement("button"));
+    button.titre = titre;
+    button.setAttribute("class","bouttonModifier");
+    button.appendChild(document.createTextNode("Valider"));
+    button.onclick = function(){
+        formModifier = document.getElementById("formModifier");
+        
+        validerUnAjout(this.titre,formModifier,item);
+    }
+}
+
+
+///--- Supprimer un element ------///
 
 function supprimerElement(titre,i,j){
     console.log(i);
@@ -187,12 +199,17 @@ function supprimerElement(titre,i,j){
         monCV[5].valeur.splice(i,1);
         item = monCV[5];
     }
-    else if(titre == "Déconnexion"){
+    else if(titre == "Titre"){
         monCV[6].valeur.splice(i,1);
         item = monCV[6];
     }
+    else if(titre == "Déconnexion"){
+        monCV[7].valeur.splice(i,1);
+        item = monCV[7];
+    }
     afficherElement(item);
 }
+
 
 ///--------------AFFICHAGE CONTENU ---------------///
 function afficherElement(item){
@@ -216,12 +233,18 @@ function afficherElement(item){
     else if(item.titre == "Loisirs"){
         divText.innerHTML = afficherLoisirs(item);
     }
+    else if(item.titre == "Titre"){
+        divText.innerHTML = afficherTitre(item);
+    }
+    else if(item.titre =="Voir"){
+        divText.innerHTML = afficherVoir(monCV);
+    }
     else if(item.titre == "Déconnexion"){
         viderElement(body);
         createPF();
     }
-    item.titre == "Coordonnnees" || item.titre == "Déconnexion" ? "" : bouttonAjouter(item);
-    item.titre == "Déconnexion" ? "" : bouttonModifier(item);
+    item.titre == "Coordonnnees" || item.titre == "Déconnexion" || item.titre=="Titre" || item.titre=="Voir" ? "" : bouttonAjouter(item);
+    item.titre == "Déconnexion" || item.titre=="Voir" ? "" : bouttonModifier(item);
 }
 
 function afficherCoordonnnees(coordonnneesItem){
@@ -258,9 +281,9 @@ function afficherCompetences (competences){
     text +='<div class="competences">'; 
     for (let i = 0; i < competences.valeur.length; i++) {
         let competence = competences.valeur[i];
-        text += '<div class="competences2"><h3>'+competence.titre+"</h3>"+'<button onclick="supprimerElement(\''+competences.titre+'\','+i+')">Supp Comp</button>'; 
+        text += '<div class="competences2"><h3>'+competence.titre+'</h3><button onclick="supprimerElement(\''+competences.titre+'\','+i+')">Supprimer</button><button onclick="ajouterElement(\''+competences.titre+'\','+i+')">Ajouter</button><br><br>'; 
         for (let j = 0; j < competence.type.length; j++) {
-            text += '<p> - '+competence.type[j]+'<button onclick="supprimerElement(\''+competences.titre+'\','+i+','+j+')">Supprimer</button>'; 
+            text += '<div> - '+competence.type[j]+' <div class="supprimer"><button onclick="supprimerElement(\''+competences.titre+'\','+i+','+j+')">Supprimer</button></div></div>'; 
         }   
         text +="</div>"
     }
@@ -274,7 +297,7 @@ function afficherExperiences(experiences){
     for (let i = 0; i < experiences.valeur.length; i++) {
         let experience = experiences.valeur[i];
      
-        text += "<tr><th class ='expTitre'>"+experience.nom+"</th>"+'<th class ="expTitre"><button  onclick="supprimerElement(\''+experiences.titre+'\','+i+')">Supp exp</button></th></tr>'; 
+        text += "<tr><th class ='expTitre'>"+experience.nom+"</th>"+'<th colspan="3" class ="expTitre"><button  onclick="supprimerElement(\''+experiences.titre+'\','+i+')">Supprimer</button><button  onclick="ajouterElement(\''+experiences.titre+'\','+i+')">Ajouter</button></th></tr>'; 
         for (let j = 0; j < experience.valeur.length; j++) {
             text +="<tr><td>"+experience.valeur[j].annee+"</td>"; 
             text +="<td>"+experience.valeur[j].firme+"</td>"; 
@@ -307,6 +330,25 @@ function afficherLoisirs(loisirs){
     return text;
 }
 
+function afficherTitre(titre){
+    let text = '<div class ="loisirs">'; 
+    text +="<h3>"+titre.titre+"</h3>";
+    text +="<h4>"+titre.valeur+"</h4>";
+    return text;
+}
+
+function afficherVoir(voir){
+    console.log(voir)
+    let text = '<div class ="cv">'; 
+    text +="<div class='cvCoordonnees'>";
+    text +="<p>"+voir[0].valeur.nom+" "+voir[0].valeur.prenom+"<p/>";
+    text +="<p> Né le : "+voir[0].valeur.naissance+"<p/>";
+    text +="<p>"+voir[0].valeur.codePostal+" "+voir[0].valeur.ville+"<p/>";
+    text +="</div>";
+    text +="<div class='cvContenu'><p> A FAIRE !!!</p></div>";
+    return text;
+}
+
 ///---------AFFICHAGE MODIFICATION--------------------------////
 function modifier(item){ 
     createDiv();
@@ -328,6 +370,9 @@ function modifier(item){
     }
     else if(item.titre == "Loisirs"){
         divText.innerHTML = afficherModifierLoisirs(item);
+    }
+    else if(item.titre == "Titre"){
+        divText.innerHTML = afficherModifierTitre(item);
     }
     bouttonValider(item.titre)
 }
@@ -418,6 +463,13 @@ function afficherModifierLoisirs(loisirsItem){
     return form;
 }
 
+function afficherModifierTitre(TitreItem){
+    titre = TitreItem.valeur;
+    let form ="<form action='#' method='post' id='formModifier'>"; 
+    form += "<div class='formDiv'><label>"+TitreItem.titre+" : </label><input type='text' id='nom' name='titre' value='"+TitreItem.valeur+"'></div>";
+    form += "</form>";
+    return form;
+}
 ///--------------VALIDER MODIFICATION-------------------------///
 
 function valider(titre,formModifier){
@@ -552,8 +604,16 @@ function valider(titre,formModifier){
         item = monCV[5];
         div.innerHTML = afficherLoisirs(item);
     }
+
+    else if(titre == "Titre"){
+        monCV[6].valeur = formModifier.nom.value;
+        item = monCV[6];
+        div.innerHTML = afficherTitre(item);
+    }
     afficherElement(item);
 }
+
+
 
 /////-----------------AJOUTER ----------------/////
 
@@ -601,10 +661,8 @@ function afficherAjouterFormations(formationItem){
 function afficherAjouterCompetences(competencesItem){
     let competences = competencesItem.valeur;
     let form ="<form action='#' method='post' id='formModifier'>"; 
-    for (let i = 0; i < competences.length; i++){
-        form += "<h3 class='formDiv'>"+competences[i].titre+"</h3>";;
-        form += "<div class='formDiv'><input type='text' name='type'></div>";
-    }
+    form +="<div class='formDiv'><label>Nom : </label> <input type='text' name='nom'></div>";
+    form +="<div class='formDiv'><label>Type : </label> <input type='text' name='type'></div>";
     form += "</form>"
     return form;
 }
@@ -646,6 +704,7 @@ function validerAjout(titre,formModifier){
     let div = document.getElementById("div");
     div.setAttribute("class","container");
     var item;
+    console.log(formModifier)
     if(titre == "Coordonnnees"){
        /// rien a valider car pas d'ajout
     }
@@ -659,16 +718,21 @@ function validerAjout(titre,formModifier){
         item = monCV[1];
     }
     else if(titre == "Competences"){
-        let lc =  formModifier.type.length;
-        if( !lc){
-            formModifier.type.value ? monCV[2].valeur[0].type.push(formModifier.type.value):"";
-        }
-        else{
-            for (let i = 0; i < formModifier.type.length; i++) {
-                formModifier.type[i].value ? monCV[2].valeur[i].type.push(formModifier.type[i].value):"";
+        if(formModifier.nom.value && formModifier.type.value){
+            let newVal = {
+                titre : formModifier.nom.value,
+                type : [formModifier.type.value]
             }
+            monCV[2].valeur.push(newVal);
         }
-
+        else if(formModifier.nom.value && !formModifier.type.value){
+            let newVal = {
+                titre : formModifier.nom.value,
+                type : []
+            }
+            monCV[2].valeur.push(newVal);
+        }
+       
         item = monCV[2];
     }
     else if(titre == "Experiences"){
@@ -697,6 +761,112 @@ function validerAjout(titre,formModifier){
     else if(titre == "Loisirs"){
         formModifier.nom.value ? monCV[5].valeur.push(formModifier.nom.value):"";
         item = monCV[5];
+    }
+    afficherElement(item);
+}
+
+///---------- AJOUTER UN ELEMENT ---------------///
+
+
+
+function ajouterElement(titre,i){
+    createDiv();
+    //console.log(i);
+    //console.log(titre);
+    monCV
+    let item ;
+    
+
+    if(titre == "Coordonnnees"){
+        divText.innerHTML = afficherAjouterUneCoordonnnees(item);
+    }
+    else  if(titre == "Formations"){
+        item = monCV[1].valeur[i];
+        divText.innerHTML = afficherAjouterUneFormations(item);
+    }
+    else if(titre == "Competences"){
+        item = monCV[2].valeur[i];
+        divText.innerHTML = afficherAjouterUneCompetences(item);
+    }
+    else if(titre == "Experiences"){
+        item = monCV[3].valeur[i];
+        divText.innerHTML = afficherAjouterUneExperiences(item);
+    }
+    else if(titre == "Langues"){
+        item = monCV[4].valeur[i];
+        divText.innerHTML = afficherAjouterUneLangues(item);
+    }
+    else if(titre == "Loisirs"){
+        item = monCV[5].valeur[i];
+        divText.innerHTML = afficherAjouterUneLoisirs(item);
+    }
+    bouttonValiderUnAjout(titre,item);
+
+}
+
+function afficherAjouterUneExperiences(item){
+    //console.log(item);
+    let form ="<form action='#' method='post' id='formModifier'>"; 
+    form += "<h3 class='formDiv'>"+item.nom+"</h3>";
+    form += '<div class="formDiv"><label>Annee : </label><input type="text" id="type" name="annee" ></div>';
+    form += "<div class='formDiv'><label>Firme : </label><input type='text' id='type' name='firme' ></div>";
+    form += "<div class='formDiv'><label>Acquis : </label><textarea type='text' id='type' name='acquis'></textarea></div>";
+    form += "</form>"
+    return form;
+};
+
+function afficherAjouterUneCompetences(item){
+    let form ="<form action='#' method='post' id='formModifier'>"; 
+    form += "<h3 class='formDiv'>"+item.titre+"</h3>";
+    form += '<div class="formDiv"><label>Type : </label><input type="text" id="type" name="type" ></div>';
+    form += "</form>"
+    return form;
+}
+
+////----VALIDER UN AJOUT -----///
+function validerUnAjout(titre,formModifier,item){
+    let div = document.getElementById("div");
+    div.setAttribute("class","container");
+    var item;
+    if(titre == "Coordonnnees"){
+      
+    }
+    else if(titre == "Formations"){
+    
+    }
+    else if(titre == "Competences"){
+        for (let i = 0; i < monCV[2].valeur.length; i++) {
+            if(item.titre == monCV[2].valeur[i].titre){
+                console.log(monCV[2].valeur[i].type)
+                formModifier.type.value ? monCV[2].valeur[i].type.push(formModifier.type.value,) : "";
+               
+            }
+        }
+        item = monCV[2];
+        div.innerHTML = afficherCompetences(item);
+    }
+    else if(titre == "Experiences"){
+        //console.log(nom)
+        //console.log(monCV[3].valeur[0].nom)
+        for (let i = 0; i < monCV[3].valeur.length; i++) {
+            if(item.nom == monCV[3].valeur[i].nom){
+                let newVal ={   
+                            annee: formModifier.annee.value,
+                            firme : formModifier.firme.value,
+                            acquis : formModifier.acquis.value
+                    }
+                formModifier.annee.value || formModifier.firme.value || formModifier.acquis.value ? monCV[3].valeur[i].valeur.push(newVal) : "",
+                item = monCV[3];
+            }
+        }
+        item = monCV[3];
+        div.innerHTML = afficherExperiences(item);
+    }
+    else if(titre == "Langues"){
+
+    }
+    else if(titre == "Loisirs"){
+
     }
     afficherElement(item);
 }

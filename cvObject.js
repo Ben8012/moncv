@@ -221,6 +221,15 @@ let monCV =[
     },
 
     {
+        titre :'Titre',
+        valeur: 'Developpeur Full Stack'
+    },
+
+    {
+        titre : 'Voir',
+    },
+
+    {
         titre :'Déconnexion',
         valeur : 
         [
